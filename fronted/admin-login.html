@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Crown Trade Academy</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <div class="admin-login-card">
+                <h1 class="main-title">Admin <span class="gold-text">Dashboard</span></h1>
+                <p class="subtitle">Access payment management system</p>
+
+                <form class="login-form" id="adminLoginForm">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+
+                    <button type="submit" class="btn-primary">
+                        Access Dashboard
+                    </button>
+                </form>
+
+                <div class="login-note">
+                    <p><strong>Default Login:</strong></p>
+                    <p>Username: <code>admin</code></p>
+                    <p>Password: <code>crowntrade2024</code></p>
+                </div>
+
+                <div class="back-link">
+                    <a href="index.html">← Back to Homepage</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Simple authentication
+            if (username === 'admin' && password === 'crowntrade2024') {
+                localStorage.setItem('adminAuthenticated', 'true');
+                window.location.href = 'admin-dashboard.html';
+            } else {
+                alert('Invalid login credentials');
+            }
+        });
+    </script>
+</body>
+</html>

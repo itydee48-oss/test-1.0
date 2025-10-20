@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Referral Program - Crown Trade Academy</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <div class="form-header">
+                <h1 class="main-title">Referral Program <span class="gold-text">Registration</span></h1>
+                <p class="subtitle">Start earning KSH 250 per referral today</p>
+                <div class="price-tag">
+                    <span class="price">KSH 400</span>
+                    <span class="price-note">Registration fee</span>
+                </div>
+            </div>
+
+            <form class="application-form" id="referralForm">
+                <div class="form-group">
+                    <label for="refFullName">Full Name</label>
+                    <input type="text" id="refFullName" name="fullName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="refEmail">Email Address</label>
+                    <input type="email" id="refEmail" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="refPhone">Phone Number (M-Pesa)</label>
+                    <input type="tel" id="refPhone" name="phone" placeholder="2547XXXXXXXX" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="refReferralCode">Who referred you? (Optional)</label>
+                    <input type="text" id="refReferralCode" name="referralCode" placeholder="Enter referral code if applicable">
+                </div>
+
+                <div class="benefits-box">
+                    <h4>🎯 What You Get:</h4>
+                    <ul>
+                        <li>Your unique referral link</li>
+                        <li>KSH 250 per successful referral</li>
+                        <li>Real-time earnings dashboard</li>
+                        <li>Instant MPesa payouts</li>
+                        <li>Option to upgrade to full mentorship anytime</li>
+                    </ul>
+                </div>
+
+                <div class="payment-section">
+                    <h3>Payment Details</h3>
+                    <div class="payment-methods">
+                        <div class="payment-option">
+                            <input type="radio" id="refMpesa" name="paymentMethod" value="mpesa" checked>
+                            <label for="refMpesa">M-Pesa</label>
+                        </div>
+                    </div>
+                    
+                    <div class="terms">
+                        <input type="checkbox" id="refTerms" name="terms" required>
+                        <label for="refTerms">I agree to the terms and conditions</label>
+                    </div>
+
+           <button type="button" class="btn-primary payment-btn" onclick="proceedToPayment()">
+    Proceed to Payment Instructions
+</button>
+
+<script>
+    function proceedToPayment() {
+        // Save user data temporarily
+        const form = event.target.closest('form');
+        const formData = new FormData(form);
+        
+        const userData = {
+            name: formData.get('fullName'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            program: form.id.includes('mentorship') ? 'mentorship' : 'referral',
+            experience: formData.get('experience') || null,
+            goals: formData.get('goals') || null,
+            referralCode: formData.get('referralCode') || null
+        };
+        
+        localStorage.setItem('currentApplicant', JSON.stringify(userData));
+        
+        // Redirect to payment instructions
+        window.location.href = `payment-instructions.html?program=${userData.program}`;
+    }
+</script>
+                </div>
+            </form>
+
+            <div class="back-link">
+                <a href="programs.html">← Back to Programs</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/payments.js"></script>
+</body>
+</html><script>
+    function proceedToPayment() {
+        // Save user data temporarily
+        const form = event.target.closest('form');
+        const formData = new FormData(form);
+        
+        const userData = {
+            name: formData.get('fullName'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            program: form.id.includes('mentorship') ? 'mentorship' : 'referral',
+            experience: formData.get('experience') || null,
+            goals: formData.get('goals') || null,
+            referralCode: formData.get('referralCode') || null
+        };
+        
+        localStorage.setItem('currentApplicant', JSON.stringify(userData));
+        
+        // Redirect to payment instructions
+        window.location.href = `payment-instructions.html?program=${userData.program}`;
+    }
+</script>

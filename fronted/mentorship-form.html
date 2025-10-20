@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mentorship Application - Crown Trade Academy</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <div class="form-header">
+                <h1 class="main-title">Mentorship <span class="gold-text">Application</span></h1>
+                <p class="subtitle">Join our exclusive trading mentorship program</p>
+                <div class="price-tag">
+                    <span class="price">KSH 2,500</span>
+                    <span class="price-note">One-time investment</span>
+                </div>
+            </div>
+
+            <form class="application-form" id="mentorshipForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number (M-Pesa)</label>
+                    <input type="tel" id="phone" name="phone" placeholder="2547XXXXXXXX" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="experience">Trading Experience</label>
+                    <select id="experience" name="experience" required>
+                        <option value="">Select your experience level</option>
+                        <option value="beginner">Beginner (New to trading)</option>
+                        <option value="intermediate">Intermediate (Some experience)</option>
+                        <option value="advanced">Advanced (Experienced trader)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="goals">What are your trading goals?</label>
+                    <textarea id="goals" name="goals" rows="3" placeholder="I want to learn how to..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="referralCode">Referral Code (Optional)</label>
+                    <input type="text" id="referralCode" name="referralCode" placeholder="If someone referred you">
+                </div>
+
+                <div class="payment-section">
+                    <h3>Payment Details</h3>
+                    <div class="payment-methods">
+                        <div class="payment-option">
+                            <input type="radio" id="mpesa" name="paymentMethod" value="mpesa" checked>
+                            <label for="mpesa">M-Pesa</label>
+                        </div>
+                    </div>
+                    
+                    <div class="terms">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">I agree to the terms and conditions</label>
+                    </div>
+
+      <button type="button" class="btn-primary payment-btn" onclick="proceedToPayment()">
+    Proceed to Payment Instructions
+</button>
+
+<script>
+    function proceedToPayment() {
+        // Save user data temporarily
+        const form = event.target.closest('form');
+        const formData = new FormData(form);
+        
+        const userData = {
+            name: formData.get('fullName'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            program: form.id.includes('mentorship') ? 'mentorship' : 'referral',
+            experience: formData.get('experience') || null,
+            goals: formData.get('goals') || null,
+            referralCode: formData.get('referralCode') || null
+        };
+        
+        localStorage.setItem('currentApplicant', JSON.stringify(userData));
+        
+        // Redirect to payment instructions
+        window.location.href = `payment-instructions.html?program=${userData.program}`;
+    }
+</script>
+                </div>
+            </form>
+
+            <div class="back-link">
+                <a href="programs.html">← Back to Programs</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/payments.js"></script>
+</body>
+</html><script>
+    function proceedToPayment() {
+        // Save user data temporarily
+        const form = event.target.closest('form');
+        const formData = new FormData(form);
+        
+        const userData = {
+            name: formData.get('fullName'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            program: form.id.includes('mentorship') ? 'mentorship' : 'referral',
+            experience: formData.get('experience') || null,
+            goals: formData.get('goals') || null,
+            referralCode: formData.get('referralCode') || null
+        };
+        
+        localStorage.setItem('currentApplicant', JSON.stringify(userData));
+        
+        // Redirect to payment instructions
+        window.location.href = `payment-instructions.html?program=${userData.program}`;
+    }
+</script>

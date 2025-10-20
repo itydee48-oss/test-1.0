@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Referral Program!</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <div class="success-card">
+                <div class="success-icon">💰</div>
+                <h1 class="main-title">Let the <span class="gold-text">Earnings Begin!</span></h1>
+                <p class="subtitle">Your referral program is now active</p>
+                
+                <div class="success-details">
+                    <div class="detail-item">
+                        <strong>Program:</strong> Referral Income Program
+                    </div>
+                    <div class="detail-item">
+                        <strong>Registration:</strong> KSH 400
+                    </div>
+                    <div class="detail-item">
+                        <strong>Commission:</strong> KSH 250 per referral
+                    </div>
+                </div>
+
+                <div class="earnings-dashboard">
+                    <h3>📊 Your Earnings Dashboard</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">0</div>
+                            <div class="stat-label">Total Referrals</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">KSH 0</div>
+                            <div class="stat-label">Total Earnings</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">KSH 0</div>
+                            <div class="stat-label">Available for Payout</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="referral-section">
+                    <h3>🔗 Your Referral Tools</h3>
+                    <div class="referral-link">
+                        <input type="text" value="https://crowntrade.academy/ref/your-unique-code" readonly>
+                        <button class="btn-secondary" onclick="copyReferralLink()">Copy Link</button>
+                    </div>
+                    
+                    <div class="share-buttons">
+                        <button class="btn-share" onclick="shareWhatsApp()">📱 Share on WhatsApp</button>
+                        <button class="btn-share" onclick="shareSMS()">💬 Share via SMS</button>
+                    </div>
+                </div>
+
+                <div class="upgrade-cta">
+                    <h3>🎓 Ready to Level Up?</h3>
+                    <p>Upgrade to full trading mentorship and master the markets!</p>
+                    <button class="btn-primary" onclick="window.location.href='mentorship-form.html'">
+                        Upgrade to Mentorship
+                    </button>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn-primary" onclick="window.location.href='index.html'">
+                        Return to Home
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyReferralLink() {
+            const linkInput = document.querySelector('.referral-link input');
+            linkInput.select();
+            document.execCommand('copy');
+            alert('Referral link copied to clipboard!');
+        }
+
+        function shareWhatsApp() {
+            const message = "Join Crown Trade Academy and start earning! Use my link: https://crowntrade.academy/ref/your-unique-code";
+            window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        function shareSMS() {
+            const message = "Join Crown Trade Academy and start earning! Use my link: https://crowntrade.academy/ref/your-unique-code";
+            window.open(`sms:?body=${encodeURIComponent(message)}`, '_blank');
+        }
+    </script>
+</body>
+</html>

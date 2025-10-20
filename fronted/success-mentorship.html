@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Crown Trade Academy!</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <div class="success-card">
+                <div class="success-icon">🎉</div>
+                <h1 class="main-title">Welcome to the <span class="gold-text">Academy!</span></h1>
+                <p class="subtitle">Your mentorship journey begins now</p>
+                
+                <div class="success-details">
+                    <div class="detail-item">
+                        <strong>Program:</strong> Strategic Trading Mentorship
+                    </div>
+                    <div class="detail-item">
+                        <strong>Investment:</strong> KSH 2,500
+                    </div>
+                    <div class="detail-item">
+                        <strong>Next Steps:</strong> Check your email for login details
+                    </div>
+                </div>
+
+                <div class="whats-next">
+                    <h3>📧 What's Next?</h3>
+                    <ul>
+                        <li>You'll receive login credentials within 24 hours</li>
+                        <li>Access your exclusive trading dashboard</li>
+                        <li>Join our private community</li>
+                        <li>Start with Module 1: Market Fundamentals</li>
+                    </ul>
+                </div>
+
+                <div class="referral-bonus">
+                    <h3>💰 Earn While You Learn</h3>
+                    <p>Share your unique referral link and earn KSH 250 for every friend who joins!</p>
+                    <div class="referral-link">
+                        <input type="text" value="https://crowntrade.academy/ref/your-code" readonly>
+                        <button class="btn-secondary" onclick="copyReferralLink()">Copy Link</button>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn-primary" onclick="window.location.href='index.html'">
+                        Return to Home
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyReferralLink() {
+            const linkInput = document.querySelector('.referral-link input');
+            linkInput.select();
+            document.execCommand('copy');
+            alert('Referral link copied to clipboard!');
+        }
+    </script>
+</body>
+</html>

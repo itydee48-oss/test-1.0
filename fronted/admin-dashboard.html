@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Crown Trade Academy</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <div class="admin-header">
+                <h1 class="main-title">Admin <span class="gold-text">Dashboard</span></h1>
+                <div class="admin-actions">
+                    <button class="btn-secondary" onclick="refreshData()">🔄 Refresh</button>
+                    <button class="btn-secondary" onclick="exportData()">📊 Export Data</button>
+                    <button class="btn-secondary" onclick="logout()">🚪 Logout</button>
+                </div>
+            </div>
+
+            <div class="stats-overview">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalSubmissions">0</div>
+                    <div class="stat-label">Total Submissions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="pendingCount">0</div>
+                    <div class="stat-label">Pending Review</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="approvedCount">0</div>
+                    <div class="stat-label">Approved</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalRevenue">KSH 0</div>
+                    <div class="stat-label">Total Revenue</div>
+                </div>
+            </div>
+
+            <div class="submissions-section">
+                <h2>📋 Payment Submissions</h2>
+                
+                <div class="filter-options">
+                    <button class="filter-btn active" onclick="filterSubmissions('all')">All</button>
+                    <button class="filter-btn" onclick="filterSubmissions('pending')">Pending</button>
+                    <button class="filter-btn" onclick="filterSubmissions('approved')">Approved</button>
+                    <button class="filter-btn" onclick="filterSubmissions('mentorship')">Mentorship</button>
+                    <button class="filter-btn" onclick="filterSubmissions('referral')">Referral</button>
+                </div>
+
+                <div class="submissions-list" id="submissionsList">
+                    <!-- Submissions will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        if (!localStorage.getItem('adminAuthenticated')) {
+            window.location.href = 'admin-login.html';
+        }
+
+        let allSubmissions = [];
+
+        function loadSubmissions() {
+            allSubmissions = JSON.parse(localStorage.getItem('paymentSubmissions') || '[]');
+            updateStats();
+            displaySubmissions(allSubmissions);
+        }
+
+        function updateStats() {
+            const total = allSubmissions.length;
+            const pending = allSubmissions.filter(s => s.status === 'pending').length;
+            const approved = allSubmissions.filter(s => s.status === 'approved').length;
+            
+            const revenue = allSubmissions
+                .filter(s => s.status === 'approved')
+                .reduce((sum, sub) => sum + (sub.program === 'mentorship' ? 2500 : 400), 0);
+
+            document.getElementById('totalSubmissions').textContent = total;
+            document.getElementById('pendingCount').textContent = pending;
+            document.getElementById('approvedCount').textContent = approved;
+            document.getElementById('totalRevenue').textContent = `KSH ${revenue}`;
+        }
+
+        function displaySubmissions(submissions) {
+            const container = document.getElementById('submissionsList');
+            
+            if (submissions.length === 0) {
+                container.innerHTML = '<div class="no-data">No submissions found</div>';
+                return;
+            }
+
+            container.innerHTML = submissions.map((sub, index) => `
+                <div class="submission-card ${sub.status}">
+                    <div class="submission-header">
+                        <div class="submission-info">
+                            <h3>${sub.name}</h3>
+                            <div class="submission-meta">
+                                <span class="program-badge ${sub.program}">${sub.program.toUpperCase()}</span>
+                                <span class="amount">${sub.program === 'mentorship' ? 'KSH 2,500' : 'KSH 400'}</span>
+                                <span class="status ${sub.status}">${sub.status}</span>
+                            </div>
+                        </div>
+                        <div class="submission-actions">
+                            ${sub.status === 'pending' ? `
+                                <button class="btn-approve" onclick="approveSubmission(${index})">✅ Approve</button>
+                                <button class="btn-reject" onclick="rejectSubmission(${index})">❌ Reject</button>
+                            ` : ''}
+                            <button class="btn-view" onclick="viewSubmission(${index})">👁️ View</button>
+                        </div>
+                    </div>
+                    
+                    <div class="submission-details">
+                        <div class="detail-row">
+                            <strong>Email:</strong> ${sub.email}
+                        </div>
+                        <div class="detail-row">
+                            <strong>Phone:</strong> ${sub.phone}
+                        </div>
+                        <div class="detail-row">
+                            <strong>Transaction Code:</strong> ${sub.transactionCode}
+                        </div>
+                        <div class="detail-row">
+                            <strong>Submitted:</strong> ${new Date(sub.submittedAt).toLocaleString()}
+                        </div>
+                        ${sub.referralCode ? `
+                        <div class="detail-row">
+                            <strong>Referred By:</strong> ${sub.referralCode}
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterSubmissions(filter) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            let filtered = allSubmissions;
+            
+            switch(filter) {
+                case 'pending':
+                    filtered = allSubmissions.filter(s => s.status === 'pending');
+                    break;
+                case 'approved':
+                    filtered = allSubmissions.filter(s => s.status === 'approved');
+                    break;
+                case 'mentorship':
+                    filtered = allSubmissions.filter(s => s.program === 'mentorship');
+                    break;
+                case 'referral':
+                    filtered = allSubmissions.filter(s => s.program === 'referral');
+                    break;
+            }
+            
+            displaySubmissions(filtered);
+        }
+
+        function approveSubmission(index) {
+            if (confirm('Approve this payment and grant access?')) {
+                allSubmissions[index].status = 'approved';
+                allSubmissions[index].approvedAt = new Date().toISOString();
+                allSubmissions[index].approvedBy = 'admin';
+                
+                localStorage.setItem('paymentSubmissions', JSON.stringify(allSubmissions));
+                loadSubmissions();
+                
+                alert('Payment approved! User access granted.');
+            }
+        }
+
+        function rejectSubmission(index) {
+            const reason = prompt('Reason for rejection:');
+            if (reason) {
+                allSubmissions[index].status = 'rejected';
+                allSubmissions[index].rejectedAt = new Date().toISOString();
+                allSubmissions[index].rejectionReason = reason;
+                
+                localStorage.setItem('paymentSubmissions', JSON.stringify(allSubmissions));
+                loadSubmissions();
+                
+                alert('Payment rejected.');
+            }
+        }
+
+        function viewSubmission(index) {
+            const sub = allSubmissions[index];
+            const details = `
+Name: ${sub.name}
+Email: ${sub.email}
+Phone: ${sub.phone}
+Program: ${sub.program}
+Amount: ${sub.program === 'mentorship' ? 'KSH 2,500' : 'KSH 400'}
+Transaction Code: ${sub.transactionCode}
+Payment Time: ${sub.paymentTime}
+Status: ${sub.status}
+Submitted: ${new Date(sub.submittedAt).toLocaleString()}
+${sub.experience ? `Experience: ${sub.experience}` : ''}
+${sub.goals ? `Goals: ${sub.goals}` : ''}
+${sub.referralCode ? `Referred By: ${sub.referralCode}` : ''}
+            `.trim();
+            
+            alert(details);
+        }
+
+        function refreshData() {
+            loadSubmissions();
+            alert('Data refreshed!');
+        }
+
+        function exportData() {
+            const dataStr = JSON.stringify(allSubmissions, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `crowntrade-submissions-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+        }
+
+        function logout() {
+            localStorage.removeItem('adminAuthenticated');
+            window.location.href = 'admin-login.html';
+        }
+
+        // Load data on page load
+        loadSubmissions();
+    </script>
+</body>
+</html>

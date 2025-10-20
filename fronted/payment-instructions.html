@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Payment - Crown Trade Academy</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <div class="payment-card">
+                <h1 class="main-title">Complete Your <span class="gold-text">Payment</span></h1>
+                <p class="subtitle">Follow these steps to finalize your registration</p>
+
+                <div class="payment-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Send Payment via M-Pesa</h3>
+                            <div class="mpesa-details">
+                                <div class="detail-box">
+                                    <strong>Business Number:</strong>
+                                    <span class="highlight">123456</span>
+                                </div>
+                                <div class="detail-box">
+                                    <strong>Account Number:</strong>
+                                    <span class="highlight">CROWNTRADE</span>
+                                </div>
+                                <div class="detail-box">
+                                    <strong>Amount:</strong>
+                                    <span class="highlight" id="paymentAmount">KSH 2,500</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Screenshot Your Payment</h3>
+                            <p>Take a clear screenshot of your M-Pesa confirmation message showing:</p>
+                            <ul>
+                                <li>Amount paid</li>
+                                <li>Transaction time</li>
+                                <li>Transaction code</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Upload Screenshot & Complete</h3>
+                            <p>Upload your payment screenshot below and we'll confirm within 24 hours.</p>
+                            
+                            <form class="upload-form" id="uploadForm">
+                                <div class="form-group">
+                                    <label for="screenshot">Upload Payment Screenshot</label>
+                                    <input type="file" id="screenshot" name="screenshot" accept="image/*" required>
+                                    <small>Accepted formats: JPG, PNG, PDF (Max 5MB)</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="transactionCode">M-Pesa Transaction Code</label>
+                                    <input type="text" id="transactionCode" name="transactionCode" placeholder="e.g., RGT89HJK12" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="paymentTime">Payment Date & Time</label>
+                                    <input type="datetime-local" id="paymentTime" name="paymentTime" required>
+                                </div>
+
+                                <button type="submit" class="btn-primary">
+                                    Submit for Verification
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="support-info">
+                    <h3>Need Help?</h3>
+                    <p>Contact us on WhatsApp: <strong>+254 7XX XXX XXX</strong></p>
+                    <p>We'll respond within minutes to assist you.</p>
+                </div>
+
+                <div class="back-link">
+                    <a href="programs.html">← Back to Programs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Set payment amount based on program
+        const urlParams = new URLSearchParams(window.location.search);
+        const program = urlParams.get('program');
+        const amount = program === 'referral' ? 'KSH 400' : 'KSH 2,500';
+        document.getElementById('paymentAmount').textContent = amount;
+
+        // Handle form submission
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const userData = JSON.parse(localStorage.getItem('currentApplicant') || '{}');
+            
+            // Combine data
+            const submission = {
+                ...userData,
+                screenshot: formData.get('screenshot').name,
+                transactionCode: formData.get('transactionCode'),
+                paymentTime: formData.get('paymentTime'),
+                submittedAt: new Date().toISOString(),
+                status: 'pending'
+            };
+            
+            // Save to local storage (in real app, send to backend)
+            const submissions = JSON.parse(localStorage.getItem('paymentSubmissions') || '[]');
+            submissions.push(submission);
+            localStorage.setItem('paymentSubmissions', JSON.stringify(submissions));
+            
+            // Redirect to pending page
+            window.location.href = 'payment-pending.html';
+        });
+    </script>
+</body>
+</html>

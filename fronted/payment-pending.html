@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Under Review - Crown Trade Academy</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="hero">
+        <div class="container">
+            <div class="success-card">
+                <div class="success-icon">⏳</div>
+                <h1 class="main-title">Payment <span class="gold-text">Under Review</span></h1>
+                <p class="subtitle">We're verifying your payment details</p>
+                
+                <div class="review-timeline">
+                    <div class="timeline-item active">
+                        <div class="timeline-marker">1</div>
+                        <div class="timeline-content">
+                            <h4>Payment Submitted</h4>
+                            <p>We've received your payment screenshot and details</p>
+                            <span class="timeline-time">Just now</span>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker">2</div>
+                        <div class="timeline-content">
+                            <h4>Under Review</h4>
+                            <p>Our team is verifying your payment (within 24 hours)</p>
+                            <span class="timeline-time">Next step</span>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-marker">3</div>
+                        <div class="timeline-content">
+                            <h4>Approval & Access</h4>
+                            <p>You'll receive login details via email and SMS</p>
+                            <span class="timeline-time">After verification</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="whats-next">
+                    <h3>📧 What Happens Next?</h3>
+                    <ul>
+                        <li>We'll verify your payment within 24 hours</li>
+                        <li>You'll receive welcome email with login details</li>
+                        <li>Check your spam folder if you don't see it</li>
+                        <li>Contact us if you need urgent verification</li>
+                    </ul>
+                </div>
+
+                <div class="urgent-support">
+                    <h3>🚀 Need Urgent Verification?</h3>
+                    <p>Send your transaction code to our WhatsApp for faster processing:</p>
+                    <div class="whatsapp-contact">
+                        <strong>WhatsApp: +254 7XX XXX XXX</strong>
+                        <button class="btn-secondary" onclick="openWhatsApp()">
+                            💬 Message on WhatsApp
+                        </button>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn-primary" onclick="window.location.href='index.html'">
+                        Return to Homepage
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openWhatsApp() {
+            const userData = JSON.parse(localStorage.getItem('currentApplicant') || '{}');
+            const message = `Hello! I just submitted payment for ${userData.program}. My transaction code is: [Your Code]. Please verify.`;
+            window.open(`https://wa.me/254XXXXXXXXX?text=${encodeURIComponent(message)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
